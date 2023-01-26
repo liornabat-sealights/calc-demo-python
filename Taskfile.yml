@@ -1,0 +1,13 @@
+version: '3'
+
+
+tasks:
+  bsid:
+    cmds:
+      - sl-python config --appname calc-demo-python
+  build:
+    cmds:
+      - sl-python build --buildsessionidfile ./buildSessionId.txt
+  unittest:
+    cmds:
+      - sl-python unittest --buildsessionidfile ./buildSessionId.txt
