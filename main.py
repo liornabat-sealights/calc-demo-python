@@ -1,6 +1,7 @@
 from flask import Flask, request
 import logging
 from service import calc
+
 app = Flask(__name__)
 log = logging.getLogger(__name__)
 
@@ -54,11 +55,11 @@ def div():
     try:
         a = int(a)
         b = int(b)
+        print(a, b)
     except ValueError:
         return "Error: Please provide valid integer values for the 'a' and 'b' parameters."
 
     return calc.div(a, b)
-
 
 if __name__ == '__main__':
     app.run()

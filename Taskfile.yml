@@ -7,12 +7,12 @@ tasks:
       - activate.bat
   bsid:
     env:
-      SL_DEBUG: true
+#      SL_DEBUG: true
     cmds:
       - sl-python config --appname calc-demo-python --exclude "*tests*,*venv*"
   build:
     env:
-      SL_DEBUG: true
+#      SL_DEBUG: true
     cmds:
       - sl-python build --buildsessionidfile ./buildSessionId.txt
   unittest:
@@ -22,9 +22,9 @@ tasks:
       - sl-python unittest --buildsessionidfile ./buildSessionId.txt --teststage stage2
   pytest:
     env:
-      SL_DEBUG: true
+#      SL_DEBUG: true
     cmds:
-      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --teststage stage3 --testgroupid groupid
+      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --teststage stage3
   nose:
     env:
       SL_DEBUG: true
