@@ -1,13 +1,14 @@
 from flask import Flask, request
+import logging
 
 app = Flask(__name__)
+log = logging.getLogger(__name__)
 
 
 @app.route('/add', methods=['GET'])
 def add():
     a = request.args.get('a')
     b = request.args.get('b')
-
     try:
         a = int(a)
         b = int(b)

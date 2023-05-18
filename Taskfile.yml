@@ -1,13 +1,43 @@
 version: '3'
 
-
 tasks:
+  activate:
+    dir: venv/Scripts
+    cmds:
+      - activate.bat
   bsid:
+    env:
+      SL_DEBUG: true
     cmds:
       - sl-python config --appname calc-demo-python
   build:
+    env:
+      SL_DEBUG: true
     cmds:
       - sl-python build --buildsessionidfile ./buildSessionId.txt
   unittest:
+    env:
+      SL_DEBUG: true
     cmds:
-      - sl-python unittest --buildsessionidfile ./buildSessionId.txt
+      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --teststage stage2
+  pytest:
+    env:
+      SL_DEBUG: true
+    cmds:
+      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --teststage stage3 --testgroupid groupid
+  nose:
+    env:
+      SL_DEBUG: true
+    cmds:
+      - sl-python nose --buildsessionidfile ./buildSessionId.txt --teststage stage3 --testgroupid groupid ./tests/nose/test_main.py
+  start:
+    cmds:
+      - sl-python start --buildsessionidfile ./buildSessionId.txt --teststage stage1 --testgroupid groupid
+  end:
+    cmds:
+      - sl-python end --buildsessionidfile ./buildSessionId.txt --teststage stage1 --testgroupid groupid
+  run:
+    env:
+      SL_DEBUG: true
+    cmds:
+      - sl-python run --buildsessionidfile ./buildSessionId.txt python ./main.py
