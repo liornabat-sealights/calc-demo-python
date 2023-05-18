@@ -1,6 +1,6 @@
 from flask import Flask, request
 import logging
-
+from service import calc
 app = Flask(__name__)
 log = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ def add():
     except ValueError:
         return "Error: Please provide valid integer values for the 'a' and 'b' parameters."
 
-    return str(int(a) + int(b))
+    return calc.add(a, b)
 
 
 @app.route('/sub', methods=['GET'])
@@ -29,7 +29,7 @@ def sub():
     except ValueError:
         return "Error: Please provide valid integer values for the 'a' and 'b' parameters."
 
-    return str(int(a) - int(b))
+    return calc.sub(a, b)
 
 
 @app.route('/mul', methods=['GET'])
@@ -43,7 +43,7 @@ def mul():
     except ValueError:
         return "Error: Please provide valid integer values for the 'a' and 'b' parameters."
 
-    return str(int(a) * int(b))
+    return calc.mul(a, b)
 
 
 @app.route('/div', methods=['GET'])
@@ -57,7 +57,7 @@ def div():
     except ValueError:
         return "Error: Please provide valid integer values for the 'a' and 'b' parameters."
 
-    return str(int(a) / int(b))
+    return calc.div(a, b)
 
 
 if __name__ == '__main__':

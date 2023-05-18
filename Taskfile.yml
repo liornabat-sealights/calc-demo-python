@@ -9,7 +9,7 @@ tasks:
     env:
       SL_DEBUG: true
     cmds:
-      - sl-python config --appname calc-demo-python
+      - sl-python config --appname calc-demo-python --exclude "*tests*,*venv*"
   build:
     env:
       SL_DEBUG: true
