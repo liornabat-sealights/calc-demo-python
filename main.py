@@ -6,6 +6,16 @@ app = Flask(__name__)
 log = logging.getLogger(__name__)
 
 
+@app.route('/health', methods=['GET'])
+def health():
+    return "OK"
+
+
+@app.route('/', methods=['GET'])
+def base():
+    return "OK"
+
+
 @app.route('/add', methods=['GET'])
 def add():
     a = request.args.get('a')
@@ -61,5 +71,6 @@ def div():
 
     return calc.div(a, b)
 
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8080)

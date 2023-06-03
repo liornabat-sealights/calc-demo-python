@@ -22,15 +22,15 @@ tasks:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --teststage stage3
+      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --teststage stage1
   pytest:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --teststage stage3
+      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --teststage stage2
   nose:
     env:
-      SL_DEBUG: true
+#      SL_DEBUG: true
     cmds:
       - sl-python nose --buildsessionidfile ./buildSessionId.txt --teststage stage3  ./tests/nose/test_main.py
   start:
@@ -44,3 +44,20 @@ tasks:
       SL_DEBUG: true
     cmds:
       - sl-python run --buildsessionidfile ./buildSessionId.txt python ./main.py
+  pcf:
+    cmds:
+      - cf target -o "system" -s "sealights"
+      - cf push calc-demo -b https://github.com/cloudfoundry/python-buildpack.git
+  pcf-local:
+    cmds:
+      - cf target -o "system" -s "sealights"
+#      - cf push calc-demo -b file://D:/Development/projects/sealights/python-buildpack
+      - cf push calc-demo -b https://github.com/liornabat-sealights/python-buildpack.git
+  pcf-ci:
+    cmds:
+      - task: install
+      - task: bsid
+      - task: scan
+      - task: pcf-local
+      - cf bs calc-demo sealights
+      - cf restage calc-demo
