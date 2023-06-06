@@ -53,11 +53,14 @@ tasks:
       - cf target -o "system" -s "sealights"
 #      - cf push calc-demo -b file://D:/Development/projects/sealights/python-buildpack
       - cf push calc-demo -b https://github.com/liornabat-sealights/python-buildpack.git
+  pcf-service:
+    cmds:
+      - cf cups sealights -p pcf_service.json
   pcf-ci:
     cmds:
-      - task: install
-      - task: bsid
-      - task: scan
+#      - task: install
+#      - task: bsid
+#      - task: scan
       - task: pcf-local
       - cf bs calc-demo sealights
       - cf restage calc-demo
