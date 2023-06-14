@@ -8,42 +8,50 @@ tasks:
   install:
     cmds:
       - pip install D:/Development/projects/sealights/SL.OnPremise.Agents.Python
+  pip:
+    cmds:
+      - pip install -r requirements_sealights.txt
   bsid:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python config --appname calc-demo-python --exclude "*tests*,*venv*"
+      - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
   scan:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python scan --buildsessionidfile ./buildSessionId.txt
+      - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt
   unittest:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --teststage stage1
+      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1
   pytest:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --teststage stage2
+      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage2
   nose:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python nose --buildsessionidfile ./buildSessionId.txt --teststage stage3  ./tests/nose/test_main.py
+      - sl-python nose --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3  ./tests/nose/test_main.py
   start:
     cmds:
-      - sl-python start --buildsessionidfile ./buildSessionId.txt --teststage stage1 --testgroupid groupid
+      - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
   end:
     cmds:
-      - sl-python end --buildsessionidfile ./buildSessionId.txt --teststage stage1 --testgroupid groupid
+      - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
   run:
     env:
       SL_DEBUG: true
     cmds:
-      - sl-python run --buildsessionidfile ./buildSessionId.txt python ./main.py
+      - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python ./main.py
+  run-module:
+    env:
+      SL_DEBUG: true
+    cmds:
+      - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python -m local_dev.flask_run
   pcf:
     cmds:
       - cf target -o "system" -s "sealights"
