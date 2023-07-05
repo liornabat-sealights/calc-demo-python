@@ -1,5 +1,5 @@
 from nose.tools import assert_equal
-from main import app  # replace 'your_flask_app' with the name of the file your Flask app is in
+from local_dev.flask_run import app   # replace 'your_flask_app' with the name of the file your Flask app is in
 
 app.testing = True
 client = app.test_client()

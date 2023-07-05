@@ -30,7 +30,7 @@ tasks:
     env:
 #      SL_DEBUG: true
     cmds:
-      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage2
+      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3 --testgroupid groupid
   nose:
     env:
 #      SL_DEBUG: true
@@ -72,3 +72,9 @@ tasks:
       - task: pcf-local
       - cf bs calc-demo sealights
       - cf restage calc-demo
+  ci:
+    cmds:
+      - task: install
+      - task: bsid
+      - task: scan
+      - task: pytest
