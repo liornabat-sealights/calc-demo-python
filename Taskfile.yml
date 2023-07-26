@@ -16,6 +16,11 @@ tasks:
 #      SL_DEBUG: true
     cmds:
       - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
+  prbsid:
+    env:
+#      SL_DEBUG: true
+    cmds:
+      - sl-python prconfig --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*" --targetbranch main --latestcommit asd3asd --pullrequestnumber 123 --repourl dasdasdasdas
   scan:
     env:
 #      SL_DEBUG: true
@@ -66,9 +71,9 @@ tasks:
       - cf cups sealights -p pcf_service.json
   pcf-ci:
     cmds:
-#      - task: install
-#      - task: bsid
-#      - task: scan
+      - task: install
+      - task: bsid
+      - task: scan
       - task: pcf-local
       - cf bs calc-demo sealights
       - cf restage calc-demo
