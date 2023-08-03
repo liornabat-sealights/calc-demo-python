@@ -83,3 +83,8 @@ tasks:
       - task: bsid
       - task: scan
       - task: pytest
+
+# Important - python pcf buildpack need more setting after creating the env:
+# Enable TCP routing in Networking
+# Apply again the setting
+# run cf create-shared-domain tcp.[ENV-NAME].cf-app.com --router-group default-tcp
