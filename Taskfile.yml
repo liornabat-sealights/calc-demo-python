@@ -24,6 +24,7 @@ tasks:
   scan:
     env:
 #      SL_DEBUG: true
+      SL_DEBUG_CALLS: true
     cmds:
       - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt
   unittest:
@@ -42,14 +43,19 @@ tasks:
     cmds:
       - sl-python nose --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3  ./tests/nose/test_main.py
   start:
+    env:
+      SL_LAB_ID: some-lab-id
     cmds:
       - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
   end:
+    env:
+      SL_LAB_ID: some-lab-id
     cmds:
       - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
   run:
     env:
       SL_DEBUG: true
+      SL_LAB_ID: some-lab-id
     cmds:
       - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python ./main.py
   run-module:
@@ -82,7 +88,6 @@ tasks:
       - task: install
       - task: bsid
       - task: scan
-      - task: pytest
 
 # Important - python pcf buildpack need more setting after creating the env:
 # Enable TCP routing in Networking
