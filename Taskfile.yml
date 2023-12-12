@@ -26,7 +26,7 @@ tasks:
 #      SL_DEBUG: true
       SL_DEBUG_CALLS: true
     cmds:
-      - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt
+      - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --withlineconverage True
   unittest:
     env:
 #      SL_DEBUG: true
@@ -45,17 +45,20 @@ tasks:
   start:
     env:
       SL_LAB_ID: some-lab-id
+      SL_DEBUG_CALLS: true
     cmds:
       - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
   end:
     env:
       SL_LAB_ID: some-lab-id
+      SL_DEBUG_CALLS: true
     cmds:
       - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
   run:
     env:
-      SL_DEBUG: true
+      SL_DEBUG: false
       SL_LAB_ID: some-lab-id
+      SL_DEBUG_CALLS: true
     cmds:
       - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python ./main.py
   run-module:
