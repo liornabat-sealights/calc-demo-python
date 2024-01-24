@@ -37,6 +37,12 @@ tasks:
 #      SL_DEBUG: true
     cmds:
       - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3 --testgroupid groupid
+
+  behave:
+    env:
+    #      SL_DEBUG: true
+    cmds:
+      - sl-python behave --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage  stage1 --cov-report report.xml tests/behave/features --show-timings -v
   nose:
     env:
 #      SL_DEBUG: true
@@ -60,7 +66,7 @@ tasks:
       SL_LAB_ID: some-lab-id
       SL_DEBUG_CALLS: true
     cmds:
-      - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python ./main.py
+      - sl-python run --buildsessionidfile ./buildSessionId.txt--tokenfile ./sltoken.txt python ./main.py
   run-module:
     env:
       SL_DEBUG: true
