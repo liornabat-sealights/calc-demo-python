@@ -1,13 +1,13 @@
-Feature: Arithmetic operations on a web service
+Feature: 2-Arithmetic operations on a web service
 
-  Scenario Outline: Adding two numbers <a> and <b>
+  Scenario Outline: Adding two numbers <a> and <b> - changed
     Given I have a web client
     When I request "add" with parameters "a" as <a> and "b" as <b>
     Then the response should be <result>
 
   Examples:
   | a   | b   | result  |
-  | 10  | 5   | 15    |
+  | 10  | 10   | 25    |
   | 10  | 20   | 25    |
   | ten | five| Error: Please provide valid integer values for the 'a' and 'b' parameters. |
 

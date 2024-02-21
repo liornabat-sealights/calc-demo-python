@@ -13,6 +13,7 @@ tasks:
       - pip install -r requirements_sealights.txt
   bsid:
     env:
+      SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
     cmds:
       - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
@@ -23,50 +24,84 @@ tasks:
       - sl-python prconfig --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*" --targetbranch main --latestcommit asd3asd --pullrequestnumber 123 --repourl dasdasdasdas
   scan:
     env:
+      SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
       SL_DEBUG_CALLS: true
     cmds:
       - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --withlineconverage True
   unittest:
     env:
+      SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
     cmds:
-      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1
+      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage unittest
   pytest:
     env:
+      SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
     cmds:
-      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3 --testgroupid groupid
+      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage pytest
 
   behave:
     env:
+      SL_PROXY: "http://127.0.0.1:9000"
     #      SL_DEBUG: true
+      SL_LEGACY_MODE: true
     cmds:
-      - sl-python behave --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage  stage1 --cov-report report.xml tests/behave/features --show-timings -v
+      - sl-python behave --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage  behave --cov-report report.xml tests/behave/features --show-timings -v
   nose:
     env:
+      SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
     cmds:
-      - sl-python nose --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3  ./tests/nose/test_main.py
+      - sl-python nose --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage nose  ./tests/nose/test_main.py
   start:
     env:
       SL_LAB_ID: some-lab-id
-      SL_DEBUG_CALLS: true
+      SL_PROXY: "http://localhost:9000"
+
     cmds:
-      - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
+      - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage run_stage
   end:
+    env:
+      SL_LAB_ID: some-lab-id
+      SL_PROXY: "http://127.0.0.1:9000"
+    cmds:
+      - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage run_stage
+  upload_reports:
     env:
       SL_LAB_ID: some-lab-id
       SL_DEBUG_CALLS: true
     cmds:
-      - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
+      - sl-python uploadreports --reportfilesfolder "./reports" --type JUnitReport --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage reports
   run:
     env:
       SL_DEBUG: false
       SL_LAB_ID: some-lab-id
-      SL_DEBUG_CALLS: true
+      SL_PROXY: "http://127.0.0.1:9000"
+      SL_EXPERIMENTAL_MODE: true
     cmds:
-      - sl-python run --buildsessionidfile ./buildSessionId.txt--tokenfile ./sltoken.txt python ./main.py
+      - cmd: tskill python
+        ignore_error: true
+      - sl-python run --tokenfile ./sltoken.txt python ./main.py
+
+  run-full:
+    env:
+      SL_DEBUG: true
+      SL_LAB_ID: some-lab-id
+      SL_PROXY: "http://127.0.0.1:9000"
+#      SL_LEGACY_MODE: true
+    cmds:
+      - cmd: tskill python
+        ignore_error: true
+      - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
+      - sl-python scan
+      - sl-python pytest --teststage pytest
+      - sl-python unittest --teststage unittest
+      - sl-python behave --teststage behave --cov-report report.xml tests/behave/features --show-timings -v
+      - sl-python start --teststage run_stage
+      - sl-python run python ./main.py
+      - sl-python end --teststage run_stage
   run-module:
     env:
       SL_DEBUG: true

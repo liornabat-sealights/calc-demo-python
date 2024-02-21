@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 
 @app.route('/health', methods=['GET'])
 def health():
+    print("Health check------------------------------------------")
     return "OK"
 
 
