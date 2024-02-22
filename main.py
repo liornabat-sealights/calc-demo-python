@@ -45,6 +45,7 @@ def call_div(a, b):
 
 
 def start():
+    print("--------------Start----------------")
     flask_thread = Thread(target=run_app_in_background)
     flask_thread.daemon = True  # This ensures the thread will be killed when the main thread exits
     flask_thread.start()
@@ -52,16 +53,35 @@ def start():
     time.sleep(2)
     call_health()
     print("Waiting for 2 sec")
+    time.sleep(2)
     call_base()
     print("Waiting for 2 sec")
+    time.sleep(2)
     call_add(1, 2)  # Example usage with a=1, b=2
     print("Waiting for 2 sec")
+    time.sleep(2)
     call_sub(5, 3)  # Example usage with a=5, b=3
     print("Waiting for 2 sec")
+    time.sleep(2)
     call_mul(4, 2)  # Example usage with a=4, b=2
     print("Waiting for 2 sec")
+    time.sleep(2)
     call_div(8, 4)  # Example usage with a=8, b=4
-
-
+    print("--------------Complete----------------")
+def start_all():
+    print("--------------Start----------------")
+    flask_thread = Thread(target=run_app_in_background)
+    flask_thread.daemon = True  # This ensures the thread will be killed when the main thread exits
+    flask_thread.start()
+    print("Waiting for 2 sec")
+    time.sleep(2)
+    call_health()
+    call_base()
+    call_add(1, 2)  # Example usage with a=1, b=2
+    call_sub(5, 3)  # Example usage with a=5, b=3
+    call_mul(4, 2)  # Example usage with a=4, b=2
+    call_div(8, 4)  # Example usage with a=8, b=4
+    print("--------------Complete----------------")
 if __name__ == '__main__':
     start()
+    start_all()

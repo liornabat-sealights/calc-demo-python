@@ -8,6 +8,9 @@ tasks:
   install:
     cmds:
       - pip install D:/Development/projects/sealights/SL.OnPremise.Agents.Python
+  install-wsl:
+    cmds:
+      - pip install /mnt/d/Development/projects/sealights/SL.OnPremise.Agents.Python
   pip:
     cmds:
       - pip install -r requirements_sealights.txt
@@ -39,14 +42,15 @@ tasks:
     env:
       SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
+#      SL_LEGACY_MODE: true
     cmds:
-      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage pytest
+      - sl-python pytest  --teststage pytest
 
   behave:
     env:
       SL_PROXY: "http://127.0.0.1:9000"
     #      SL_DEBUG: true
-      SL_LEGACY_MODE: true
+    #  SL_LEGACY_MODE: true
     cmds:
       - sl-python behave --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage  behave --cov-report report.xml tests/behave/features --show-timings -v
   nose:
@@ -57,33 +61,36 @@ tasks:
       - sl-python nose --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage nose  ./tests/nose/test_main.py
   start:
     env:
+      SL_DEBUG: true
       SL_LAB_ID: some-lab-id
       SL_PROXY: "http://localhost:9000"
-
+#      SL_LEGACY_MODE: true
     cmds:
-      - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage run_stage
+      - sl-python start --teststage run_stage
   end:
     env:
+      SL_DEBUG: true
       SL_LAB_ID: some-lab-id
       SL_PROXY: "http://127.0.0.1:9000"
+#      SL_LEGACY_MODE: true
     cmds:
-      - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage run_stage
+      - sl-python end --teststage run_stage
   upload_reports:
     env:
       SL_LAB_ID: some-lab-id
-      SL_DEBUG_CALLS: true
+#      SL_DEBUG_CALLS: true
     cmds:
       - sl-python uploadreports --reportfilesfolder "./reports" --type JUnitReport --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage reports
   run:
     env:
-      SL_DEBUG: false
-      SL_LAB_ID: some-lab-id
+      SL_DEBUG: true
+#      SL_LAB_ID: some-lab-id
       SL_PROXY: "http://127.0.0.1:9000"
-      SL_EXPERIMENTAL_MODE: true
+#      SL_LEGACY_MODE: true
     cmds:
       - cmd: tskill python
         ignore_error: true
-      - sl-python run --tokenfile ./sltoken.txt python ./main.py
+      - sl-python run  --teststage run_stage --cov-report report-run-stage.xml --labid=asdasda --autoexecution python ./main.py
 
   run-full:
     env:
@@ -96,12 +103,19 @@ tasks:
         ignore_error: true
       - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
       - sl-python scan
-      - sl-python pytest --teststage pytest
-      - sl-python unittest --teststage unittest
-      - sl-python behave --teststage behave --cov-report report.xml tests/behave/features --show-timings -v
-      - sl-python start --teststage run_stage
-      - sl-python run python ./main.py
-      - sl-python end --teststage run_stage
+      - sl-python pytest --teststage pytest --cov-report report-pytest.xml
+      - sl-python unittest --teststage unittest --cov-report report-unittest.xml
+      - sl-python behave --teststage --cov-report report-behave.txt  behave tests/behave/features --show-timings -v
+      - sl-python run --teststage run_stage --cov-report report-run_stage.xml --autoexecution python ./main.py
+  run-batch:
+    env:
+#      SL_DEBUG: true
+      SL_LAB_ID: some-lab-id
+      SL_PROXY: "http://127.0.0.1:9000"
+#      SL_LEGACY_MODE: true
+    cmds:
+      - python runner.py
+
   run-module:
     env:
       SL_DEBUG: true
