@@ -1,4 +1,6 @@
 import time
+import sys
+import os
 from threading import Thread
 from local_dev import flask_run
 
@@ -6,7 +8,6 @@ from local_dev import flask_run
 def run_app_in_background():
     # Assuming flask_run.run_app() starts the Flask server
     flask_run.run_app()
-
 
 import requests
 
@@ -82,6 +83,12 @@ def start_all():
     call_mul(4, 2)  # Example usage with a=4, b=2
     call_div(8, 4)  # Example usage with a=8, b=4
     print("--------------Complete----------------")
+
 if __name__ == '__main__':
-    start()
     start_all()
+    print("--------------------------- Sleeping-----------------------")
+    time.sleep(60)
+    print("--------------------------- Sleeping Done-----------------------")
+
+
+

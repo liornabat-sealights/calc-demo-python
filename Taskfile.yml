@@ -29,9 +29,9 @@ tasks:
     env:
       SL_PROXY: "http://127.0.0.1:9000"
 #      SL_DEBUG: true
-      SL_DEBUG_CALLS: true
+#      SL_DEBUG_CALLS: true
     cmds:
-      - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --withlineconverage True
+      - sl-python scan
   unittest:
     env:
       SL_PROXY: "http://127.0.0.1:9000"
@@ -84,17 +84,28 @@ tasks:
   run:
     env:
       SL_DEBUG: true
-#      SL_LAB_ID: some-lab-id
+      SL_SAVE_LOG_FILE: true
+      SL_LAB_ID: some-lab-id
       SL_PROXY: "http://127.0.0.1:9000"
 #      SL_LEGACY_MODE: true
     cmds:
       - cmd: tskill python
         ignore_error: true
-      - sl-python run  --teststage run_stage --cov-report report-run-stage.xml --labid=asdasda --autoexecution python ./main.py
+      - sl-python run --autoexecution python multiprocess.py
+
+  run-disable-footprint:
+    env:
+      SL_DEBUG: true
+      SL_LAB_ID: some-lab-id
+      SL_PROXY: "http://127.0.0.1:9000"
+    cmds:
+      - cmd: tskill python
+        ignore_error: true
+      - sl-python run  --teststage run_stage  --dropinitfootprints python ./main.py
 
   run-full:
     env:
-      SL_DEBUG: true
+#      SL_DEBUG: true
       SL_LAB_ID: some-lab-id
       SL_PROXY: "http://127.0.0.1:9000"
 #      SL_LEGACY_MODE: true
@@ -105,8 +116,23 @@ tasks:
       - sl-python scan
       - sl-python pytest --teststage pytest --cov-report report-pytest.xml
       - sl-python unittest --teststage unittest --cov-report report-unittest.xml
-      - sl-python behave --teststage --cov-report report-behave.txt  behave tests/behave/features --show-timings -v
+      - sl-python behave --teststage  behave --cov-report report.xml tests/behave/features --show-timings -v
       - sl-python run --teststage run_stage --cov-report report-run_stage.xml --autoexecution python ./main.py
+  run-full-legacy:
+    env:
+      SL_LAB_ID: some-lab-id
+      SL_PROXY: "http://127.0.0.1:9000"
+      SL_LEGACY_MODE: true
+    cmds:
+      - cmd: tskill python
+        ignore_error: true
+      - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
+      - sl-python scan
+      - sl-python pytest --teststage pytest
+      - sl-python unittest --teststage unittest
+      - sl-python behave --teststage  behave tests/behave/features --show-timings -v
+      - sl-python start --teststage run_stage
+      - sl-python run python ./main.py
   run-batch:
     env:
 #      SL_DEBUG: true
