@@ -7,7 +7,7 @@ tasks:
       - activate.bat
   install:
     cmds:
-      - pip install D:/Development/projects/sealights/SL.OnPremise.Agents.Python
+      - pip install $HOME/development/projects/sealights/SL.OnPremise.Agents.Python
   install-wsl:
     cmds:
       - pip install /mnt/d/Development/projects/sealights/SL.OnPremise.Agents.Python
@@ -16,7 +16,7 @@ tasks:
       - pip install -r requirements_sealights.txt
   bsid:
     env:
-      SL_PROXY: "http://127.0.0.1:9000"
+      SL_PROXY: "http://localhost:16501"
 #      SL_DEBUG: true
     cmds:
       - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
@@ -27,7 +27,7 @@ tasks:
       - sl-python prconfig --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*" --targetbranch main --latestcommit asd3asd --pullrequestnumber 123 --repourl dasdasdasdas
   scan:
     env:
-      SL_PROXY: "http://127.0.0.1:9000"
+      SL_PROXY: "http://localhost:16501"
 #      SL_DEBUG: true
 #      SL_DEBUG_CALLS: true
     cmds:
@@ -40,7 +40,7 @@ tasks:
       - sl-python unittest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage unittest
   pytest:
     env:
-      SL_PROXY: "http://127.0.0.1:9000"
+      SL_PROXY: "http://localhost:16501"
 #      SL_DEBUG: true
 #      SL_LEGACY_MODE: true
     cmds:
@@ -63,7 +63,7 @@ tasks:
     env:
       SL_DEBUG: true
       SL_LAB_ID: some-lab-id
-      SL_PROXY: "http://localhost:9000"
+      SL_PROXY: "http://localhost:16501"
 #      SL_LEGACY_MODE: true
     cmds:
       - sl-python start --teststage run_stage
@@ -71,7 +71,7 @@ tasks:
     env:
       SL_DEBUG: true
       SL_LAB_ID: some-lab-id
-      SL_PROXY: "http://127.0.0.1:9000"
+      SL_PROXY: "http://localhost:16501"
 #      SL_LEGACY_MODE: true
     cmds:
       - sl-python end --teststage run_stage

@@ -12,7 +12,7 @@ def run_app_in_background():
 import requests
 
 # Base URL of the Flask app
-base_url = 'http://127.0.0.1:8080'
+base_url = 'http://127.0.0.1:10000'
 
 
 def call_health():
